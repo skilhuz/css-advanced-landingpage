@@ -1,0 +1,651 @@
+:root {
+  /* Colors - Main */
+  --primary-blue: hsl(233, 26%, 24%);
+  --primary-green-500: hsl(136, 64%, 51%);
+  --primary-cyan-400: hsl(192, 69%, 51%);
+  --neutral-gray-600: hsl(233, 8%, 62%);
+  --neutral-gray-100: hsl(220, 16%, 96%);
+  --neutral-gray-50: hsl(0, 0%, 98%);
+  --white: hsl(0, 100%, 100%);
+
+  /* Colors - Gradients */
+  --gradient: linear-gradient(
+    110deg,
+    var(--primary-green-500),
+    var(--primary-cyan-400)
+  );
+  /* Typography */
+  --font: "Public Sans", sans-serif;
+
+  /* Layout */
+  --content-width: 1110px;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  box-sizing: border-box;
+  scroll-behavior: smooth; /* Nicer transition between sections with keyboard shortcuts*/
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  /* border: 0.025rem dashed red; */
+  /* Uncomment border to check layout spacing */
+}
+
+body {
+  background-color: var(--neutral-gray-50);
+  font-family: var(--font);
+  font-size: 1.125em; /* 18px */
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--primary-blue);
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+h1 {
+  /* Clamp instead of media query */
+  font-size: clamp(2.35rem, 4.1vw, 3.5rem);
+  letter-spacing: -1.5px;
+}
+
+h2 {
+  /* Clamp instead of media query */
+  font-size: clamp(1.8rem, 3vw, 2.25rem);
+  letter-spacing: -0.8px;
+}
+
+h3 {
+  font-size: 1.35rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.button,
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  min-height: 44px;
+  border: 0;
+  border-radius: 24px;
+  padding: 0 1.5rem;
+  font-size: 0.875rem; /* 14px */
+  font-weight: 700;
+  color: var(--white);
+  background: var(--gradient);
+  transition: opacity 0.2s ease; /* hover effect */
+}
+
+.nav-btn:hover,
+.button:hover {
+  opacity: 0.8;
+}
+
+/* Header */
+
+header {
+  background: var(--neutral-gray-50);
+  position: relative;
+  overflow: hidden;
+}
+
+header::before {
+  background: url("images/bg-intro-desktop.svg") no-repeat left top / cover;
+  z-index: 1;
+  content: "";
+  position: absolute;
+  top: 80px;
+  right: -8%;
+  width: 56%;
+  height: 680px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--white);
+  position: relative;
+  width: min(var(--content-width), calc(100% - 48px));
+  height: 80px;
+  z-index: 5;
+  margin: 0 auto;
+}
+
+.nav-logo img {
+  width: 140px;
+}
+
+.nav-items {
+  display: flex;
+  align-self: stretch;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-items a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  font-size: 0.875rem; /* 14px */
+  transition: color 0.2s ease;
+  /* link hover */
+}
+
+.nav-items a::after {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  content: "";
+  background: var(--gradient);
+  opacity: 0;
+  transition: opacity 0.2s ease; /* hover effect */
+}
+
+.nav-items a:hover {
+  color: var(--primary-blue);
+}
+
+.nav-items a:hover::after {
+  opacity: 1;
+}
+
+/* Menu toggle for tablet/mobile */
+
+.mobile-menu,
+.mobile-menu-icon {
+  display: none;
+}
+
+/* Hero Content */
+
+.hero {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: min(var(--content-width), calc(100% - 48px));
+  min-height: 590px;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+.hero-wrapper {
+  padding: 30px 0 60px;
+  width: 455px;
+  z-index: 2;
+}
+
+.hero-wrapper p {
+  max-width: 440px;
+  margin-bottom: 30px;
+}
+
+.hero-img {
+  background: url("images/bg-intro-desktop.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  object-fit: contain;
+  position: absolute;
+  top: -105px;
+  right: -165px;
+  width: 735px;
+  height: 720px;
+}
+
+.hero-img .hero-background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 650px;
+  max-width: none;
+}
+
+/* Benefits Section */
+
+.benefits {
+  padding: 95px 0 100px;
+  background: var(--neutral-gray-100);
+  position: relative;
+  z-index: 1;
+}
+
+.benefits-container {
+  width: min(var(--content-width), calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.benefits-intro {
+  margin-bottom: 70px;
+  max-width: 650px;
+}
+
+.benefits-intro p {
+  margin-bottom: 0;
+  max-width: 640px;
+}
+
+.core-benefits {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+.benefit-content img {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 35px;
+}
+
+.benefit-content h3 {
+  margin-bottom: 22px;
+}
+
+.benefit-content p {
+  font-size: 1rem; /* 16px */
+  margin-bottom: 0;
+}
+
+/* Articles / Blog Content */
+
+.articles {
+  padding: 96px 0 100px;
+}
+
+.articles h2 {
+  margin-bottom: 48px;
+}
+
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+.article-item {
+  background: var(--white);
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.article-content > img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.article-content {
+  padding: 24px 24px 20px;
+}
+
+.article-content p {
+  font-size: 13px;
+  line-height: 1.45;
+  margin-bottom: 10px;
+}
+
+.author {
+  font-size: 10px;
+  margin-bottom: 9px;
+}
+
+.article-content h3 {
+  font-size: 1.0625rem; /* 17px */
+}
+
+.article-content h3 a {
+  transition: color 0.2s ease; /* For hover effect */
+}
+
+.article-content h3 a:hover {
+  color: var(--primary-green-500);
+}
+
+/* Footer Content */
+footer {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  padding: 48px 0;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr;
+  align-items: center;
+  gap: 30px;
+  width: min(var(--content-width), calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.footer-logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90px;
+}
+
+.footer-logo > a img {
+  width: 140px;
+}
+
+.footer-navitems,
+.social-links {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  list-style: none;
+}
+
+.footer-navitems {
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-navitems a {
+  font-size: 0.875rem; /* 14px */
+  transition: color 0.2s ease; /* for hover */
+}
+
+.footer-navitems a:hover {
+  color: var(--primary-green-500);
+}
+
+.social-links {
+  gap: 13px;
+}
+
+.social-links a:hover {
+  filter: brightness(0) saturate(100%) invert(70%) sepia(58%) saturate(500%)
+    hue-rotate(80deg);
+  /* Tried filter tip from CSStricks for hovers. Probably not the most efficient but wanted to try different approach */
+}
+
+.social-links img {
+  width: 20px;
+  height: 20px;
+}
+
+.footer-attribution {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.footer-attribution p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* Media Queries */
+
+@media (max-width: 760px) {
+  body {
+    font-size: 0.9375rem; /* 15px */
+    text-align: center;
+  }
+  .navbar {
+    background: var(--white);
+    width: 100%;
+    height: 64px;
+    padding: 0 24px;
+  }
+  .navlogo img {
+    width: 140px;
+  }
+  .mobile-menu {
+    display: block;
+    width: 28px;
+    height: 28px;
+    margin: 0;
+    position: absolute;
+    right: 24px;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .mobile-menu-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+  }
+  .mobile-menu-icon span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--primary-blue);
+  }
+  .nav-items {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    padding: 14px 0;
+    position: absolute;
+    top: 80px;
+    right: 24px;
+    left: 24px;
+    border-radius: 5px;
+    box-shadow: 0 20px 45px hsla(233, 26%, 24%, 0.25);
+  }
+  .nav-items a {
+    justify-content: center;
+    font-size: 17px;
+    color: var(--primary-blue);
+  }
+
+  .nav-items a::after {
+    display: none;
+  }
+  .nav-items li {
+    padding: 10px;
+  }
+
+  /* Used CSStricks and Kevin Powell tutorials to figure out how to get the hamburger menu in css to work*/
+
+  .mobile-menu:checked ~ .nav-items {
+    display: flex;
+  }
+  .mobile-menu:focus-visible + .mobile-menu-icon {
+    outline: 2px solid var(--primary-cyan-400);
+    outline-offset: 5px;
+  }
+
+  /* Header */
+
+  header::before {
+    display: none;
+  }
+
+  /* Hero Section */
+
+  .hero {
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+    min-height: 0;
+  }
+  .hero-img {
+    background: url("images/bg-intro-mobile.svg");
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    position: relative;
+    width: 100%;
+    top: auto;
+    right: auto;
+    margin-top: -1px;
+  }
+  .hero-img .hero-background {
+    width: min(100%, 430px);
+    top: -118px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+  .hero-wrapper {
+    width: 100%;
+    padding: 24px 24px 88px;
+  }
+  .hero-wrapper h1 {
+    max-width: 390px;
+    font-size: 2.35rem;
+    letter-spacing: -1px;
+    margin: 0 auto 16px;
+  }
+  .hero-wrapper p {
+    max-width: 440px;
+    line-height: 1.55;
+    margin: 0 auto 28px;
+  }
+
+  /* Benefits Section */
+
+  .benefits {
+    padding: 65px 0 60px;
+  }
+
+  .benefits-container {
+    width: calc(100% - 48px);
+  }
+
+  .benefits-intro {
+    margin: 0 auto 55px;
+  }
+
+  .benefits-intro h2 {
+    margin-bottom: 18px;
+  }
+
+  .core-benefits {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .benefit-content img {
+    margin: 0 auto 24px;
+  }
+
+  .benefit-content h3 {
+    margin-bottom: 14px;
+  }
+
+  .benefit-content p {
+    max-width: 420px;
+    margin: 0 auto;
+    font-size: 14px;
+  }
+
+  /* Article Section */
+
+  .articles {
+    padding: 85px 0 80px;
+  }
+
+  .articles h2 {
+    margin-bottom: 30px;
+  }
+
+  .article-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    text-align: left;
+  }
+  .article-content {
+    padding: 25px 30px 28px;
+  }
+  .article-content p {
+    font-size: 13px;
+  }
+
+  .author {
+    font-size: 10px;
+  }
+  .article-content h3 {
+    font-size: 1rem; /* 16px */
+  }
+
+  /* Footer */
+
+  footer {
+    padding: 40px 0;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .footer-logo {
+    align-items: center;
+    height: auto;
+    gap: 30px;
+  }
+
+  .footer-navitems {
+    gap: 12px;
+  }
+
+  .footer-navitems a {
+    font-size: 14px;
+  }
+  .social-links {
+    gap: 16px;
+  }
+
+  .social-links img {
+    width: 22px;
+    height: 22px;
+  }
+
+  .footer-attribution {
+    align-items: center;
+    gap: 22px;
+  }
+  .footer-attribution p {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1050px) {
+  .nav-items {
+    gap: 18px;
+  }
+  .hero-img {
+    right: -250px;
+  }
+  .core-benefits,
+  .article-grid {
+    gap: 18px;
+  }
+  .article-content {
+    padding: 20px 16px;
+  }
+}
