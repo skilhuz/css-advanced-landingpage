@@ -1,5 +1,5 @@
 :root {
-  /* Colors - Main */
+  /* Colors */
   --primary-blue: hsl(233, 26%, 24%);
   --primary-green-500: hsl(136, 64%, 51%);
   --primary-cyan-400: hsl(192, 69%, 51%);
@@ -7,23 +7,36 @@
   --neutral-gray-100: hsl(220, 16%, 96%);
   --neutral-gray-50: hsl(0, 0%, 98%);
   --white: hsl(0, 100%, 100%);
-
-  /* Colors - Gradients */
   --gradient: linear-gradient(
     110deg,
     var(--primary-green-500),
     var(--primary-cyan-400)
   );
-  /* Typography */
-  --font: "Public Sans", sans-serif;
+
+  /* Type colors */
+
+  --text-heading: var(--primary-blue);
+  --text-body: var(--neutral-gray-600);
+  --text-dark-bg: var(--white);
+  --text-hover: var(--primary-green-500);
+
+  /* Type scale */
+  /* Prefer clamp to media queries */
+  --fs-h1: clamp(2.25rem, 1.5rem + 3vw, 3.5rem);
+  --fs-h2: clamp(1.75rem, 1.4vw, 2.25rem);
+  --fs-h3: 1.25rem;
+  --fs-body: 0.9375rem; /* 15px mobile */
+  --fs-sm-body: 0.875rem; /* 14ps */
+  --fs-article: 0.8125rem; /* 13px */
+  --fs-author: 0.75rem; /* 12px */
 
   /* Layout */
-  --content-width: 1110px;
+  --font: "Public Sans", sans-serif;
+  --content-width: 69.375rem; /* 1110px */
+  --gutter: 1.5rem;
 }
 
 html {
-  margin: 0;
-  padding: 0;
   font-size: 16px;
   box-sizing: border-box;
   scroll-behavior: smooth; /* Nicer transition between sections with keyboard shortcuts*/
@@ -38,10 +51,15 @@ html {
 }
 
 body {
+  margin: 0;
+  padding: 0;
   background-color: var(--neutral-gray-50);
+  color: var(--text-body);
   font-family: var(--font);
-  font-size: 1.125em; /* 18px */
+  font-size: var(--fs-body);
+  font-weight: 400;
   line-height: 1.55;
+  text-align: center;
 }
 
 h1,
@@ -54,25 +72,29 @@ p {
 h1,
 h2,
 h3 {
-  color: var(--primary-blue);
+  color: var(--text-heading);
   font-weight: 300;
   line-height: 1.2;
 }
 
 h1 {
-  /* Clamp instead of media query */
-  font-size: clamp(2.35rem, 4.1vw, 3.5rem);
-  letter-spacing: -1.5px;
+  font-size: var(--fs-h1);
+  letter-spacing: -0.03em;
 }
 
 h2 {
-  /* Clamp instead of media query */
-  font-size: clamp(1.8rem, 3vw, 2.25rem);
-  letter-spacing: -0.8px;
+  font-size: var(--fs-h2);
+  letter-spacing: -0.02em;
 }
 
 h3 {
-  font-size: 1.35rem;
+  font-size: var(--fs-h3);
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 a {
@@ -85,19 +107,24 @@ img {
   display: block;
 }
 
+/* For screen reader, keyboard controls */
+:focus-visible {
+  outline: 2px solid var(--primary-cyan-400);
+  outline-offset: 4px;
+}
+
 .button,
 .nav-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 160px;
-  min-height: 44px;
-  border: 0;
-  border-radius: 24px;
+  min-width: 10rem; /* 160px */
+  min-height: 2.75rem; /* 44px */
   padding: 0 1.5rem;
-  font-size: 0.875rem; /* 14px */
+  border-radius: 1.5rem; /* 24px */
+  font-size: var(--fs-small);
   font-weight: 700;
-  color: var(--white);
+  color: var(--text-dark-bg);
   background: var(--gradient);
   transition: opacity 0.2s ease; /* hover effect */
 }
@@ -112,18 +139,7 @@ img {
 header {
   background: var(--neutral-gray-50);
   position: relative;
-  overflow: hidden;
-}
-
-header::before {
-  background: url("images/bg-intro-desktop.svg") no-repeat left top / cover;
-  z-index: 1;
-  content: "";
-  position: absolute;
-  top: 80px;
-  right: -8%;
-  width: 56%;
-  height: 680px;
+  overflow-x: clip; /* Clips sides, allows hero img to stick out bottom*/
 }
 
 .navbar {
@@ -132,520 +148,472 @@ header::before {
   align-items: center;
   background: var(--white);
   position: relative;
-  width: min(var(--content-width), calc(100% - 48px));
-  height: 80px;
+  padding-inline: max(var(--gutter), calc(100% - var(--content-width)) / 2);
+  /* Got this calc tip from Kevin Powell tutorial for full transparency */
+  height: 4rem; /* 80px */
   z-index: 5;
-  margin: 0 auto;
 }
 
 .nav-logo img {
-  width: 140px;
+  width: 8.75rem; /* 140px */
+}
+
+/* Mobile menu */
+
+.mobile-menu {
+  margin: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  position: absolute;
+  right: var(--gutter);
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.mobile-menu-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 1.5rem;
+}
+
+.mobile-menu-icon span {
+  display: block;
+  height: 2px;
+  background: var(--primary-blue);
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+  /*Hover-ish effect - Tip from Csstricks */
 }
 
 .nav-items {
-  display: flex;
-  align-self: stretch;
-  gap: 30px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-items a {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  position: relative;
-  font-size: 0.875rem; /* 14px */
-  transition: color 0.2s ease;
-  /* link hover */
-}
-
-.nav-items a::after {
-  position: absolute;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  height: 4px;
-  content: "";
-  background: var(--gradient);
-  opacity: 0;
-  transition: opacity 0.2s ease; /* hover effect */
-}
-
-.nav-items a:hover {
-  color: var(--primary-blue);
-}
-
-.nav-items a:hover::after {
-  opacity: 1;
-}
-
-/* Menu toggle for tablet/mobile */
-
-.mobile-menu,
-.mobile-menu-icon {
   display: none;
+  position: absolute;
+  top: 5rem;
+  right: var(--gutter);
+  left: var(--gutter);
+  padding: 0.875rem 0;
+  border-radius: 5px;
+  background: var(--white);
+  box-shadow: 0 20px 45px hsla(233, 26%, 24%, 0.25);
+  /* Looked up how to use box-shadow on Csstricks for full transparency */
 }
 
-/* Hero Content */
+/* When mobile menu is pressed - show nav */
+.mobile-menu:checked ~ .nav-items {
+  display: block;
+}
+.nav-items li {
+  padding: 0.625rem; /* 10px */
+}
+.nav-items a {
+  display: block;
+  color: var(--text-heading);
+  font-size: 1.0625rem; /* 17px */
+}
+.navbar .nav-btn {
+  display: none; /* Hidden for mobile + tablet */
+}
+
+/* Hero Section */
 
 .hero {
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: min(var(--content-width), calc(100% - 48px));
-  min-height: 590px;
-  margin: 0 auto;
-  z-index: 2;
-}
-
-.hero-wrapper {
-  padding: 30px 0 60px;
-  width: 455px;
-  z-index: 2;
-}
-
-.hero-wrapper p {
-  max-width: 440px;
-  margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 .hero-img {
-  background: url("images/bg-intro-desktop.svg");
+  background: url("images/bg-intro-mobile.svg");
+  background-position: center bottom;
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
-  object-fit: contain;
   position: absolute;
-  top: -105px;
-  right: -165px;
-  width: 735px;
-  height: 720px;
+  content: "";
+  padding: 2rem var(--gutter) 0;
+  position: relative;
+  order: -1;
 }
 
-.hero-img .hero-background {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 650px;
-  max-width: none;
+.hero-img img {
+  width: min(100%, 23.4375rem); /* 100%, 375px */
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.18));
+  /* Filter tip from CSStricks */
 }
 
-/* Benefits Section */
+.hero-intro {
+  padding: 1.5rem var(--gutter) 5.5rem;
+}
+
+.hero-intro h1 {
+  max-width: 24rem; /* 384px */
+  margin: 0 auto 1rem;
+}
+
+.hero-intro p {
+  max-width: 27.5rem; /* 440px */
+  margin: 0 auto 1.75rem;
+}
+
+/* Benefits */
 
 .benefits {
-  padding: 95px 0 100px;
   background: var(--neutral-gray-100);
+  padding: 4rem 0;
   position: relative;
   z-index: 1;
 }
 
-.benefits-container {
-  width: min(var(--content-width), calc(100% - 48px));
-  margin: 0 auto;
+.benefits-container,
+.section-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: min(var(--content-width), calc(100% - 2 * var(--gutter)));
 }
 
 .benefits-intro {
-  margin-bottom: 70px;
-  max-width: 650px;
+  margin: 0 auto 3.5rem;
+  max-width: 40rem; /* 640px */
+}
+
+.benefits-intro h2 {
+  margin-bottom: 1.125rem; /* 18px */
 }
 
 .benefits-intro p {
   margin-bottom: 0;
-  max-width: 640px;
 }
 
 .core-benefits {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
 }
 
-.benefit-content img {
-  width: 72px;
-  height: 72px;
-  margin-bottom: 35px;
+.benefit-item img {
+  width: 4.5rem; /* 72px */
+  height: 4.5rem; /* 72px */
+  margin: 0 auto 1.5rem;
 }
 
-.benefit-content h3 {
-  margin-bottom: 22px;
+.benefit-item h3 {
+  margin-bottom: 0.875rem; /* 14px */
 }
 
-.benefit-content p {
-  font-size: 1rem; /* 16px */
-  margin-bottom: 0;
+.benefit-item p {
+  font-size: var(--fs-sm-body);
+  max-width: 26rem; /* 416px */
+  margin: 0 auto;
 }
 
-/* Articles / Blog Content */
+/* Articles */
 
 .articles {
-  padding: 96px 0 100px;
+  padding: 5rem 0;
 }
 
 .articles h2 {
-  margin-bottom: 48px;
+  margin-bottom: 2rem;
 }
 
 .article-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  text-align: left;
 }
 
 .article-item {
   background: var(--white);
-  overflow: hidden;
   border-radius: 5px;
+  overflow: hidden;
 }
 
 .article-content > img {
   width: 100%;
-  height: 200px;
+  height: 12.5rem; /* 200px */
   object-fit: cover;
 }
 
 .article-content {
-  padding: 24px 24px 20px;
+  padding: 1.5rem;
 }
 
 .article-content p {
-  font-size: 13px;
+  font-size: var(--fs-article);
   line-height: 1.45;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem; /* 10px */
 }
 
-.author {
-  font-size: 10px;
-  margin-bottom: 9px;
+.article-content .author {
+  font-size: var(--fs-author);
+  margin-bottom: 0.5rem;
 }
 
 .article-content h3 {
-  font-size: 1.0625rem; /* 17px */
+  font-size: 1rem;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
 }
 
+/* Article link hover smoothing effect */
 .article-content h3 a {
-  transition: color 0.2s ease; /* For hover effect */
+  transition: color 0.2s ease;
 }
 
 .article-content h3 a:hover {
-  color: var(--primary-green-500);
+  color: var(--text-hover);
 }
 
-/* Footer Content */
+/* Footer */
+
 footer {
-  background-color: var(--primary-blue);
-  color: var(--white);
-  padding: 48px 0;
+  background: var(--primary-blue);
+  color: var(--text-dark-bg);
+  padding-top: 2.5rem; /* 40px */
 }
 
 .footer-container {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 2fr;
-  align-items: center;
-  gap: 30px;
-  width: min(var(--content-width), calc(100% - 48px));
-  margin: 0 auto;
+  grid-template-columns: 1fr;
+  gap: 1.75rem; /* 18.8px */
+  justify-items: center;
+  width: min(var(--content-width), calc(100% - 2 * var(--gutter)));
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 3rem;
 }
 
 .footer-logo {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 90px;
+  align-items: center;
+  gap: 1.875rem; /* 30px */
+  padding-bottom: 2rem;
 }
 
 .footer-logo > a img {
-  width: 140px;
-}
-
-.footer-navitems,
-.social-links {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  list-style: none;
+  width: 8.75rem; /* 140px */
 }
 
 .footer-navitems {
+  display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.75rem; /* 12px */
 }
 
 .footer-navitems a {
-  font-size: 0.875rem; /* 14px */
-  transition: color 0.2s ease; /* for hover */
+  font-size: var(--fs-sm-body);
+  transition: color 0.2s ease;
 }
 
 .footer-navitems a:hover {
-  color: var(--primary-green-500);
+  color: var(--text-hover);
 }
 
 .social-links {
-  gap: 13px;
-}
-
-.social-links a:hover {
-  filter: brightness(0) saturate(100%) invert(70%) sepia(58%) saturate(500%)
-    hue-rotate(80deg);
-  /* Tried filter tip from CSStricks for hovers. Probably not the most efficient but wanted to try different approach */
+  display: flex;
+  gap: 1rem; /* 16px */
 }
 
 .social-links img {
-  width: 20px;
-  height: 20px;
+  width: 1.375rem; /* 22px */
+  height: 1.375rem; /* 22px */
 }
 
-.footer-attribution {
+.social-links a:hover {
+  filter: brightness(0) saturate(100%) invert(70%) sepia(58%) saturate(400%)
+    hue-rotate(80deg);
+}
+
+.footer-cta {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 20px;
+  align-items: center;
+  gap: 1.25rem; /* 20px */
 }
 
-.footer-attribution p {
+.footer-cta p {
+  font-size: var(--fs-sm-body);
+  color: var(--text-body);
   margin: 0;
-  font-size: 13px;
 }
 
-/* Media Queries */
+/* Range for tablets */
 
-@media (max-width: 760px) {
+@media (min-width: 40rem) /* 640px */ {
+  .core-benefits,
+  .article-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Range for Desktop */
+
+@media (min-width: 64rem) /* 1024px */ {
   body {
-    font-size: 0.9375rem; /* 15px */
-    text-align: center;
+    font-size: 1.125rem; /* 18px */
+    text-align: left;
   }
+
+  /* Navigation */
+
   .navbar {
-    background: var(--white);
-    width: 100%;
-    height: 64px;
-    padding: 0 24px;
+    height: 5rem; /* 80px */
   }
-  .navlogo img {
-    width: 140px;
-  }
-  .mobile-menu {
-    display: block;
-    width: 28px;
-    height: 28px;
-    margin: 0;
-    position: absolute;
-    right: 24px;
-    opacity: 0;
-    cursor: pointer;
-  }
+  .mobile-menu,
   .mobile-menu-icon {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-  }
-  .mobile-menu-icon span {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: var(--primary-blue);
+    display: none; /* Hides hamburger menu when larger than 64rem */
   }
   .nav-items {
-    display: none;
-    flex-direction: column;
-    gap: 0;
-    padding: 14px 0;
-    position: absolute;
-    top: 80px;
-    right: 24px;
-    left: 24px;
-    border-radius: 5px;
-    box-shadow: 0 20px 45px hsla(233, 26%, 24%, 0.25);
+    display: flex;
+    align-self: stretch;
+    position: static;
+    gap: 1.875rem; /* 30px */
+    padding: 0;
+    background: none; /*removes mobile bg */
+    box-shadow: none; /*removes mobile bx shadow */
   }
-  .nav-items a {
-    justify-content: center;
-    font-size: 17px;
-    color: var(--primary-blue);
-  }
-
-  .nav-items a::after {
-    display: none;
-  }
-  .nav-items li {
-    padding: 10px;
-  }
-
-  /* Used CSStricks and Kevin Powell tutorials to figure out how to get the hamburger menu in css to work*/
-
   .mobile-menu:checked ~ .nav-items {
     display: flex;
   }
-  .mobile-menu:focus-visible + .mobile-menu-icon {
-    outline: 2px solid var(--primary-cyan-400);
-    outline-offset: 5px;
+  .nav-items li {
+    padding: 0;
+  }
+  .nav-items a {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 100%;
+    font-size: var(--fs-sm-body);
+    color: var(--text-body);
+    transition: color 0.2s ease;
   }
 
-  /* Header */
-
-  header::before {
-    display: none;
+  /* Shows the gradient line under nav links */
+  .nav-items a::after {
+    background: var(--gradient);
+    opacity: 0;
+    height: 4px;
+    position: absolute;
+    inset: auto 0 0 0;
+    content: "";
+    transform: opacity 0.2s ease;
+  }
+  .nav-items a:hover {
+    color: var(--text-heading);
   }
 
-  /* Hero Section */
+  .nav-items a:hover::after {
+    opacity: 1;
+  }
+
+  .navbar .nav-btn {
+    display: inline-flex;
+  }
 
   .hero {
-    display: flex;
-    flex-direction: column-reverse;
-    width: 100%;
-    min-height: 0;
+    grid-template-columns:
+      minmax(var(--gutter), 0.5fr)
+      minmax(0, calc(var(--content-width) / 2 - var(--gutter)))
+      minmax(var(--gutter), 2fr);
+    /* I was having trouble placing the image responsively so I looked this solution up and had it explained to me, for full transparency */
+    min-height: 40rem; /* 640px */
+    align-items: center;
+  }
+  .hero-intro {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 0;
+    max-width: 28.5rem; /* 456px */
+  }
+  .hero-intro h1,
+  .hero-intro p {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .hero-intro p {
+    max-width: 27.5rem; /* 440px */
+    margin-bottom: 1.875rem; /* 30px */
   }
   .hero-img {
-    background: url("images/bg-intro-mobile.svg");
+    grid-column: 3 / -1;
+    grid-row: 1;
+    align-self: stretch;
+    order: 0;
+    padding: 0;
+    z-index: 3;
+  }
+  .hero-img::before {
+    background: url("images/bg-intro-desktop.svg");
+    background-position: left top;
+    background-size: cover;
     background-repeat: no-repeat;
-    background-position: center bottom;
-    position: relative;
+  }
+  .hero-img img {
     width: 100%;
-    top: auto;
-    right: auto;
-    margin-top: -1px;
-  }
-  .hero-img .hero-background {
-    width: min(100%, 430px);
-    top: -118px;
-    right: 50%;
-    transform: translateX(50%);
-  }
-  .hero-wrapper {
-    width: 100%;
-    padding: 24px 24px 88px;
-  }
-  .hero-wrapper h1 {
-    max-width: 390px;
-    font-size: 2.35rem;
-    letter-spacing: -1px;
-    margin: 0 auto 16px;
-  }
-  .hero-wrapper p {
-    max-width: 440px;
-    line-height: 1.55;
-    margin: 0 auto 28px;
+    max-width: none;
+    margin: 0 0 -6rem;
   }
 
-  /* Benefits Section */
+  /* Benefits */
 
   .benefits {
-    padding: 65px 0 60px;
-  }
-
-  .benefits-container {
-    width: calc(100% - 48px);
+    padding: 7rem 0 6rem;
   }
 
   .benefits-intro {
-    margin: 0 auto 55px;
+    max-width: 40rem; /* 640px */
+    margin: 0 0 4.5rem;
   }
-
-  .benefits-intro h2 {
-    margin-bottom: 18px;
-  }
-
   .core-benefits {
-    grid-template-columns: 1fr;
-    gap: 38px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.875rem; /* 30px */
+  }
+  .benefit-item img {
+    margin: 0 0 2.25rem;
+  }
+  .benefit-item p {
+    font-size: 1rem;
+    margin: 0;
   }
 
-  .benefit-content img {
-    margin: 0 auto 24px;
-  }
-
-  .benefit-content h3 {
-    margin-bottom: 14px;
-  }
-
-  .benefit-content p {
-    max-width: 420px;
-    margin: 0 auto;
-    font-size: 14px;
-  }
-
-  /* Article Section */
+  /* Articles */
 
   .articles {
-    padding: 85px 0 80px;
-  }
-
-  .articles h2 {
-    margin-bottom: 30px;
+    padding: 6rem 0;
   }
 
   .article-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    text-align: left;
-  }
-  .article-content {
-    padding: 25px 30px 28px;
-  }
-  .article-content p {
-    font-size: 13px;
-  }
-
-  .author {
-    font-size: 10px;
-  }
-  .article-content h3 {
-    font-size: 1rem; /* 16px */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.875rem;
   }
 
   /* Footer */
 
   footer {
-    padding: 40px 0;
+    padding-block: 3rem; /* 48px */
   }
-
   .footer-container {
-    grid-template-columns: 1fr;
-    gap: 28px;
+    grid-template-columns: 2fr 1fr 1fr 2fr;
+    align-items: start;
+    justify-items: start;
+    gap: 1.875rem; /* 30px */
   }
-
   .footer-logo {
-    align-items: center;
-    height: auto;
-    gap: 30px;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 5.625rem; /* 90px */
+    margin-bottom: -2rem;
   }
 
-  .footer-navitems {
-    gap: 12px;
-  }
-
-  .footer-navitems a {
-    font-size: 14px;
-  }
-  .social-links {
-    gap: 16px;
-  }
-
-  .social-links img {
-    width: 22px;
-    height: 22px;
-  }
-
-  .footer-attribution {
-    align-items: center;
-    gap: 22px;
-  }
-  .footer-attribution p {
-    font-size: 12px;
-  }
-}
-
-@media (min-width: 761px) and (max-width: 1050px) {
-  .nav-items {
-    gap: 18px;
-  }
-  .hero-img {
-    right: -250px;
-  }
-  .core-benefits,
-  .article-grid {
-    gap: 18px;
-  }
-  .article-content {
-    padding: 20px 16px;
+  .footer-cta {
+    align-items: flex-end;
+    justify-self: end;
+    text-align: right;
   }
 }
