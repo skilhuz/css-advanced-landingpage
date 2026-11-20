@@ -1,3 +1,5 @@
+This is my assignment for the Advanced CSS project for Wincacademy. It asked to use images and/or challenge kit from frontendmentor.io or dribble to build a responsive landingpage. 
+
 Test of live site is published via netlifly:
 https://skilhuz-css-advanced-landingpage.netlify.app/
 
